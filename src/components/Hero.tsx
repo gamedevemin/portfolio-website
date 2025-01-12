@@ -23,7 +23,7 @@ export function Hero({ addXP }: HeroProps) {
           onClick={handleAvatarClick}
         >
           <img
-            src="/portfolio-website/images/emin.jpg"
+            src="/portfolio-website/images/emin.png"
             alt="Profile"
             className="w-40 h-40 mx-auto rounded-full border-2 border-gray-600 object-cover"
           />
