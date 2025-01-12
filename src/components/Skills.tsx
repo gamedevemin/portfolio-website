@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Gamepad2, Code2, Bot, Brain, Target, Rocket } from 'lucide-react';
 
 interface SkillsProps {
   addXP: (amount: number) => void;
@@ -10,7 +9,7 @@ export function Skills({ addXP }: SkillsProps) {
 
   const skills = {
     gamedev: {
-      icon: Gamepad2,
+      icon: '🎮',
       title: 'Oyun Geliştirme',
       skills: [
         { name: 'Unreal Engine', level: 10 },
@@ -20,7 +19,7 @@ export function Skills({ addXP }: SkillsProps) {
       ]
     },
     ai: {
-      icon: Bot,
+      icon: '🤖',
       title: 'Yapay Zeka & Araçlar',
       skills: [
         { name: 'AI Ajanları', level: 60 },
@@ -31,7 +30,7 @@ export function Skills({ addXP }: SkillsProps) {
       ]
     },
     programming: {
-      icon: Code2,
+      icon: '💻',
       title: 'Yazılım Prensipleri',
       skills: [
         { name: 'Nesne Yönelimli Programlama', level: 60 },
@@ -43,7 +42,7 @@ export function Skills({ addXP }: SkillsProps) {
       ]
     },
     entrepreneurship: {
-      icon: Target,
+      icon: '🎯',
       title: 'Girişimcilik',
       skills: [
         { name: 'İş Modeli Geliştirme', level: 15 },
@@ -55,7 +54,7 @@ export function Skills({ addXP }: SkillsProps) {
       ]
     },
     core: {
-      icon: Rocket,
+      icon: '🚀',
       title: 'Temel Gereksinimler',
       skills: [
         { name: 'İngilizce', level: 'A2' },
@@ -65,7 +64,7 @@ export function Skills({ addXP }: SkillsProps) {
       ]
     },
     softSkills: {
-      icon: Brain,
+      icon: '👤',
       title: 'Kişisel Beceriler',
       skills: [
         { name: 'Problem Çözme', level: 90 },
@@ -86,25 +85,25 @@ export function Skills({ addXP }: SkillsProps) {
   };
 
   return (
-    <section id="skills" className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 bg-gray-800/5 dark:bg-gray-800/50">
+    <section id="skills" className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 bg-black">
       <div className="max-w-4xl mx-auto">
-        <h2 className="text-2xl sm:text-3xl font-bold mb-8 sm:mb-12 text-center text-gray-800 dark:text-white">
+        <h2 className="text-2xl sm:text-3xl font-bold mb-8 sm:mb-12 text-center text-gray-100">
           Yetenek Ağacı
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
-          {Object.entries(skills).map(([category, { icon: Icon, title, skills }]) => (
+          {Object.entries(skills).map(([category, { icon, title, skills }]) => (
             <div 
               key={category}
-              className="p-4 sm:p-6 rounded-lg bg-white dark:bg-gray-800 shadow-lg transform hover:scale-105 transition-transform cursor-pointer"
+              className="p-4 sm:p-6 rounded-lg bg-gray-900 shadow-lg transform hover:scale-105 transition-transform cursor-pointer"
               onClick={() => handleSkillClick(category)}
             >
               <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
-                <Icon size={20} className="sm:w-6 sm:h-6 text-blue-500" />
-                <h3 className="text-lg sm:text-xl font-semibold text-gray-800 dark:text-white">
+                <span className="text-2xl">{icon}</span>
+                <h3 className="text-lg sm:text-xl font-semibold text-gray-100">
                   {title}
                 </h3>
                 {!unlockedSkills.includes(category) && (
-                  <span className="ml-auto text-xs bg-yellow-500 text-black px-2 py-1 rounded-full animate-pulse">
+                  <span className="ml-auto text-xs bg-gray-200 text-gray-900 px-2 py-1 rounded-full animate-pulse">
                     +15 XP
                   </span>
                 )}
@@ -113,13 +112,13 @@ export function Skills({ addXP }: SkillsProps) {
                 <div className="space-y-3 sm:space-y-4">
                   {skills.map((skill) => (
                     <div key={skill.name} className="space-y-1.5 sm:space-y-2">
-                      <div className="flex justify-between text-xs sm:text-sm text-gray-600 dark:text-gray-300">
+                      <div className="flex justify-between text-xs sm:text-sm text-gray-400">
                         <span>{skill.name}</span>
                         <span>{typeof skill.level === 'number' ? `${skill.level}%` : skill.level}</span>
                       </div>
-                      <div className="h-1.5 sm:h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                      <div className="h-1.5 sm:h-2 bg-gray-800 rounded-full overflow-hidden">
                         <div 
-                          className="h-full bg-blue-500 rounded-full transition-all duration-1000"
+                          className="h-full bg-gray-400 rounded-full transition-all duration-1000"
                           style={{ width: typeof skill.level === 'number' ? `${skill.level}%` : '40%' }}
                         />
                       </div>

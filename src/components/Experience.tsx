@@ -19,44 +19,11 @@ interface Project {
   xp: number;
 }
 
-export function Projects({ addXP }: ProjectsProps) {
+export function Experience({ addXP }: ProjectsProps) {
   const [unlockedProjects, setUnlockedProjects] = useState<string[]>([]);
   const [activeProject, setActiveProject] = useState<string | null>(null);
 
-  const projects: Project[] = [
-    {
-      id: 'cyberpong',
-      title: 'Cyberpong',
-      shortDescription: 'Eğitsel elementler içeren, hikaye tabanlı, evrimleşen bir 2D Pong remake oyunu',
-      thumbnail: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f', // Geçici görsel
-      period: '11.12.2024',
-      technologies: [
-        'Python',
-        'Pygame',
-        'Cursor IDE Agent',
-        'ChatGPT'
-      ],
-      description: [
-        'Bilim insanı karakterinin yanlışlıkla Pong paddle\'ına dönüşmesiyle başlayan, türler arası geçiş yapan bir oyun deneyimi',
-        'Oyuncunun seçtiği bilim dalına göre özelleşen eğitsel içerik',
-        'Learn & Fun vizyonuyla tasarlanmış oynanış mekanikleri',
-        'Dinamik zorluk sistemi ile her 5 skorda yeni top eklenmesi',
-        'Paddle\'ın evrimleşme mekanikleri ve süper güç sistemi',
-        'Çoklu oyun türü geçişi (Pong\'dan Platform oyununa)',
-        'Kişiselleştirilmiş eğitsel içerik sistemi'
-      ],
-      features: [
-        'Dash yeteneği ve süper güç sistemi',
-        'Paddle\'ın hız artışı ve ekran kenarlarını sarma yeteneği',
-        'Toplarla kimyasal birleşme finali',
-        'Süper güçlere sahip toplar ve geçici paddle güçlendirmeleri',
-        'Progresif zorluk artışı ve çoklu top sistemi',
-        'Bilim dalına özel eğitsel sorular',
-        'İkinci bölümde platform oyunu deneyimi (geliştirme aşamasında)'
-      ],
-      xp: 30
-    }
-  ];
+  const projects: Project[] = [];
 
   const unlockProject = (id: string, xp: number) => {
     if (!unlockedProjects.includes(id)) {
@@ -67,13 +34,8 @@ export function Projects({ addXP }: ProjectsProps) {
   };
 
   return (
-    <section id="projects" className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8">
+    <section id="experience" className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-2xl sm:text-3xl font-bold mb-8 sm:mb-12 text-center text-gray-800 dark:text-white flex items-center justify-center gap-2">
-          <Code2 className="w-5 h-5 sm:w-6 sm:h-6 text-blue-500" />
-          Projeler
-        </h2>
-
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
           {projects.map((project) => (
             <div
@@ -186,6 +148,9 @@ export function Projects({ addXP }: ProjectsProps) {
             </div>
           ))}
         </div>
+        <footer className="mt-16 text-center text-sm text-gray-500">
+          <p>© 2025 Tüm hakları saklıdır.</p>
+        </footer>
       </div>
     </section>
   );
