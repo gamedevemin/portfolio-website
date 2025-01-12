@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Github, Linkedin, Mail, Gamepad2, Bot, Code2, Youtube } from 'lucide-react';
+import { Github, Linkedin, Mail, Gamepad2, Bot, Youtube } from 'lucide-react';
 
 interface HeroProps {
   addXP: (amount: number) => void;
@@ -23,7 +23,7 @@ export function Hero({ addXP }: HeroProps) {
           onClick={handleAvatarClick}
         >
           <img
-            src="/portfolio-website/images/emin.png"
+            src="/images/emin.png"
             alt="Profile"
             className="w-40 h-40 mx-auto rounded-full border-2 border-gray-600 object-cover"
           />
