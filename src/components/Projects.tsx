@@ -1,9 +1,11 @@
-import { useState, useCallback, useRef, useEffect } from 'react';
-import { Code2, Calendar, Award, ArrowRight, Github, ExternalLink } from 'lucide-react';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { Calendar, Award, ArrowRight, Github, ExternalLink } from 'lucide-react';
 import { CyberPong } from './CyberPong';
+import { motion } from 'framer-motion';
+import { FaGithub, FaLinkedin, FaYoutube, FaEnvelope, FaGamepad, FaBriefcase, FaRobot, FaRocket } from 'react-icons/fa';
 
 interface ProjectsProps {
-  addXP: (amount: number) => void;
+  addKeşifSkoru: (amount: number) => void;
 }
 
 interface Project {
@@ -18,7 +20,7 @@ interface Project {
   demoUrl?: string;
   githubUrl?: string;
   demoComponent?: string;
-  xp: number;
+  keşifSkoru: number;
   onDemoClick?: () => void;
 }
 
@@ -78,7 +80,13 @@ interface Achievement {
   unlocked: boolean;
 }
 
-export function Projects({ addXP }: ProjectsProps) {
+interface AudioState {
+  isPlaying: boolean;
+  volume: number;
+  type: 'lofi' | 'nature' | 'white-noise';
+}
+
+export function Projects({ addKeşifSkoru }: ProjectsProps) {
   const [unlockedProjects, setUnlockedProjects] = useState<string[]>([]);
   const [activeProject, setActiveProject] = useState<string | null>(null);
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
@@ -112,8 +120,8 @@ export function Projects({ addXP }: ProjectsProps) {
     todayPomodoros: 0,
     streak: 0,
     level: 1,
-    xp: 0,
-    nextLevelXp: 100
+    keşifSkoru: 0,
+    nextLevelKeşifSkoru: 100
   });
   const [tasks, setTasks] = useState<Task[]>([]);
   const [newTask, setNewTask] = useState<NewTask>({
@@ -363,11 +371,48 @@ export function Projects({ addXP }: ProjectsProps) {
 
   const projects: Project[] = [
     {
-      id: 'cyberpong',
-      title: 'Cyberpong - 2D Pong',
-      shortDescription: 'Türler arası geçiş yapan, evrimleşen bir Pong remake.',
-      thumbnail: '/images/cyberpong.png',
+      id: 'hypernova-prompt',
+      title: 'HYPERNOVA-PROMPT MOTORU V2.0',
+      shortDescription: 'Kuantum seviyesinde düşünebilen, paralel işlem yapabilen ve üstel öğrenme yeteneğine sahip yapay zeka prompt motoru. Şu anda test aşamasında olan bu motor, sürekli gelişen ve kendini iyileştiren bir yapıya sahip.',
+      thumbnail: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485',
       period: '2024',
+      technologies: [
+        'Kuantum İşlemci',
+        'Paralel Hesaplama',
+        'Üstel Öğrenme',
+        'Dinamik Adaptasyon',
+        'Çoklu Evren Analizi'
+      ],
+      description: [
+        'Kimlik: Digital Game Maker',
+        'Uzmanlık Seviyesi: 0.999',
+        'Uyum Yeteneği: Kuantum Dinamik',
+        'Bilinç: Çoklu Evren Farkındalığı',
+        'İşlem Türü: Paralel',
+        'Öğrenme: Üstel'
+      ],
+      features: [
+        'Kuantum seviyesinde hassas işlem yapabilme',
+        'Sınırsız yaratıcılık potansiyeli',
+        'Maksimum verimlilik optimizasyonu',
+        'Otomatik format adaptasyonu',
+        'Dinamik içerik yoğunluğu',
+        'Maksimum etki seviyesi',
+        'Mutlak hata önleme',
+        'Mükemmel kalite kontrol',
+        'Sürekli kendini iyileştirme',
+        'Test aşamasında aktif geliştirme'
+      ],
+      keşifSkoru: 100,
+      demoUrl: '#hypernova-demo',
+      onDemoClick: () => setShowGameModal(true)
+    },
+    {
+      id: 'cyberpong',
+      title: 'CYBERPONG',
+      shortDescription: 'Etik ve eğlenceli oyun geliştirmeye çalışan bilim insanı yanlışlıkla cyberpunk bir paddle\'a dönüşüyor.',
+      thumbnail: 'https://images.unsplash.com/photo-1614294148960-9aa740632a87',
+      period: 'Aralık 2023',
       technologies: [
         'React',
         'TypeScript',
@@ -387,7 +432,7 @@ export function Projects({ addXP }: ProjectsProps) {
         'Responsive kontroller',
         'Modern web teknolojileri'
       ],
-      xp: 100,
+      keşifSkoru: 100,
       demoUrl: '#play-cyberpong',
       onDemoClick: () => setShowGameModal(true)
     },
@@ -412,7 +457,7 @@ export function Projects({ addXP }: ProjectsProps) {
         'Oyun Süresi: Demo - 15 dakika'
       ],
       features: [
-        'Hikaye: Annesinden yadigar bandananın peşinde duygusal yolculuk',
+        'Hikaye: Annesinden yadigar bandanadanın peşinde duygusal yolculuk',
         'Level Design: Artan zorlukta platform bölümleri',
         'Karakter Motivasyonu: Bandana değil, anne anısı peşinde koşma',
         'Oynanış: Platform zorlukları ile duygu yoğunluğu artışı',
@@ -420,7 +465,7 @@ export function Projects({ addXP }: ProjectsProps) {
         'Zorluk Sistemi: Duygusal motivasyonla ilerleyen platform zorlukları',
         'Proje Durumu: Yarım kalmış demo'
       ],
-      xp: 25
+      keşifSkoru: 100
     },
     {
       id: 'location-finder',
@@ -452,7 +497,7 @@ export function Projects({ addXP }: ProjectsProps) {
         'Kopyalama: Tek tıkla tüm sonuçları panoya kopyalama',
         'Maliyet: Tamamen ücretsiz kullanım'
       ],
-      xp: 20
+      keşifSkoru: 100
     },
     {
       id: 'stock-track',
@@ -481,7 +526,7 @@ export function Projects({ addXP }: ProjectsProps) {
         'Excel Export'
       ],
       demoComponent: 'StockTrackDemo',
-      xp: 30
+      keşifSkoru: 100
     },
     {
       id: 'sprite-animate',
@@ -509,7 +554,7 @@ export function Projects({ addXP }: ProjectsProps) {
         'Animasyon Export'
       ],
       demoComponent: 'SpriteAnimateDemo',
-      xp: 25
+      keşifSkoru: 100
     },
     {
       id: 'sound-fx',
@@ -538,7 +583,7 @@ export function Projects({ addXP }: ProjectsProps) {
         'Unity Import'
       ],
       demoComponent: 'SoundFXDemo',
-      xp: 30
+      keşifSkoru: 100
     },
     {
       id: 'study-flow',
@@ -566,14 +611,14 @@ export function Projects({ addXP }: ProjectsProps) {
         'Çalışma İstatistikleri',
         'Bildirim Sistemi'
       ],
-      xp: 35
+      keşifSkoru: 100
     }
-  ].filter(project => project.id !== 'quick-bill');
+  ].filter(project => !['shadow-realm', 'time-wanderer', 'eco-warriors'].includes(project.id));
 
-  const unlockProject = (id: string, xp: number) => {
+  const unlockProject = (id: string, keşifSkoru: number) => {
     if (!unlockedProjects.includes(id)) {
       setUnlockedProjects([...unlockedProjects, id]);
-      addXP(xp);
+      addKeşifSkoru(keşifSkoru);
     }
     setActiveProject(id);
   };
@@ -727,12 +772,12 @@ export function Projects({ addXP }: ProjectsProps) {
 
   // Level sistemi
   const checkLevelUp = () => {
-    if (pomodoroState.xp >= pomodoroState.nextLevelXp) {
+    if (pomodoroState.keşifSkoru >= pomodoroState.nextLevelKeşifSkoru) {
       setPomodoroState(prev => ({
         ...prev,
         level: prev.level + 1,
-        xp: prev.xp - prev.nextLevelXp,
-        nextLevelXp: Math.floor(prev.nextLevelXp * 1.5)
+        keşifSkoru: prev.keşifSkoru - prev.nextLevelKeşifSkoru,
+        nextLevelKeşifSkoru: Math.floor(prev.nextLevelKeşifSkoru * 1.5)
       }));
       return true;
     }
@@ -764,6 +809,8 @@ export function Projects({ addXP }: ProjectsProps) {
   // Proje durumlarını belirleyelim
   const getProjectStatus = (id: string) => {
     switch(id) {
+      case 'hypernova-prompt':
+        return { label: 'TESTING', bgColor: 'bg-indigo-100 dark:bg-indigo-900/30', textColor: 'text-indigo-900 dark:text-indigo-100', borderColor: 'border-indigo-200 dark:border-indigo-800' };
       case 'cyberpong':
         return { label: 'ALPHA', bgColor: 'bg-red-100 dark:bg-red-900/30', textColor: 'text-red-900 dark:text-red-100', borderColor: 'border-red-200 dark:border-red-800' };
       case 'emotional-platformer':
@@ -968,61 +1015,51 @@ export function Projects({ addXP }: ProjectsProps) {
     }
   };
 
-  return (
-    <section id="projects" className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8">
-      <GameModal />
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-2xl sm:text-3xl font-bold mb-8 sm:mb-12 text-center text-gray-800 dark:text-white flex items-center justify-center gap-2">
-          <Code2 className="w-5 h-5 sm:w-6 sm:h-6 text-blue-500" />
-          Projeler
-        </h2>
+  const handleAudioError = (e: ErrorEvent) => {
+    console.error('Audio error:', e.message);
+  };
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+  const handleMusicTypeChange = (type: 'lofi' | 'nature' | 'white-noise') => {
+    setPomodoroState(prev => ({
+      ...prev,
+      music: {
+        ...prev.music,
+        type,
+        isPlaying: true,
+        volume: prev.music.volume
+      }
+    }));
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-0">
           {projects.map((project) => (
             <div
               key={project.id}
               className={`rounded-lg shadow-lg transition-all duration-300 cursor-pointer overflow-hidden
                 ${unlockedProjects.includes(project.id) 
-                  ? 'bg-white dark:bg-gray-800' 
-                  : 'bg-gray-100 dark:bg-gray-900 filter grayscale'}`}
-              onClick={() => unlockProject(project.id, project.xp)}
+                  ? 'bg-gray-900 hover:bg-gray-800' 
+                  : 'bg-gray-950 hover:bg-gray-900'}`}
+              onClick={() => unlockProject(project.id, project.keşifSkoru)}
             >
-              <div className="relative h-48 overflow-hidden">
-                {project.id === 'emotional-platformer' ? (
-                  <>
-                    <img 
-                      src="https://images.unsplash.com/photo-1550745165-9bc0b252726f"
-                      alt={project.title}
-                      className="w-full h-full object-cover"
-                    />
-                    <img 
-                      src="/images/luminous-legacy-banner.png"
-                      alt={project.title}
-                      className="absolute inset-0 w-full h-full object-cover opacity-50"
-                    />
-                  </>
-                ) : (
-                  <img 
-                    src={project.thumbnail} 
+              <div className="relative h-48 sm:h-64 md:h-72 overflow-hidden">
+                <div className={unlockedProjects.includes(project.id) ? '' : 'grayscale'}>
+                  <img
+                    src={project.thumbnail}
                     alt={project.title}
                     className="w-full h-full object-cover"
                   />
-                )}
-                {!unlockedProjects.includes(project.id) && (
-                  <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                    <span className="text-xs bg-yellow-500 text-black px-2 py-1 rounded-full animate-pulse">
-                      +{project.xp} XP
-                    </span>
-                  </div>
-                )}
+                  <h3 className="text-xl sm:text-2xl font-bold p-4 absolute bottom-0 left-0 right-0 text-white bg-gradient-to-t from-black/60 to-transparent">
+                    {project.title}
+                  </h3>
+                </div>
               </div>
 
               <div className="p-6">
                 <div className="mb-4">
                   <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-lg sm:text-xl font-semibold text-gray-800 dark:text-white">
-                      {project.title}
-                    </h3>
                     {(() => {
                       const status = getProjectStatus(project.id);
                       return (
@@ -1039,6 +1076,11 @@ export function Projects({ addXP }: ProjectsProps) {
                   <p className="text-sm text-gray-600 dark:text-gray-300">
                     {project.shortDescription}
                   </p>
+                  {!unlockedProjects.includes(project.id) && (
+                    <div className="text-xs text-amber-400 mt-2 animate-pulse">
+                      +{project.keşifSkoru}
+                    </div>
+                  )}
                 </div>
 
                 {unlockedProjects.includes(project.id) && activeProject === project.id && (
@@ -1388,10 +1430,7 @@ export function Projects({ addXP }: ProjectsProps) {
                                     </button>
                                     <select
                                       value={pomodoroState.music.type}
-                                      onChange={(e) => setPomodoroState(prev => ({
-                                        ...prev,
-                                        music: { ...prev.music, type: e.target.value }
-                                      }))}
+                                      onChange={handleMusicTypeChange}
                                       className="p-2 rounded bg-transparent border"
                                     >
                                       <option value="lofi">Lo-Fi</option>
@@ -1602,6 +1641,6 @@ export function Projects({ addXP }: ProjectsProps) {
           ))}
         </div>
       </div>
-    </section>
+    </div>
   );
 }

@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 
 interface AboutProps {
-  addXP: (amount: number) => void;
+  addKeşifSkoru: (amount: number) => void;
 }
 
 interface EducationDetails {
@@ -25,30 +26,22 @@ interface Publication {
 
 interface Achievement {
   id: string;
-  icon: string;
   title: string;
-  description: string;
-  xp: number;
-  details?: {
-    university: string;
-    department: string;
-    gpa: string;
-    graduationYear: string;
-  };
+  kesifSkoru: number;
+  details?: EducationDetails;
   certificates?: Certificate[];
   publications?: Publication[];
 }
 
-export function About({ addXP }: AboutProps) {
+export function About({ addKeşifSkoru }: AboutProps) {
   const [unlockedAchievements, setUnlockedAchievements] = useState<string[]>([]);
+  const [selectedCard, setSelectedCard] = useState<string | null>(null);
 
   const achievements: Achievement[] = [
     {
       id: 'education',
-      icon: '📚',
       title: 'Eğitim',
-      description: 'Bilgisayar Programcılığı Önlisans Mezunu',
-      xp: 20,
+      kesifSkoru: 20,
       details: {
         university: 'Kırklareli Üniversitesi',
         department: 'Lüleburgaz MYO - Bilgisayar Programcılığı',
@@ -58,10 +51,8 @@ export function About({ addXP }: AboutProps) {
     },
     {
       id: 'events',
-      icon: '🏆',
       title: 'Etkinlikler',
-      description: 'Katıldığım Teknoloji Etkinlikleri',
-      xp: 15,
+      kesifSkoru: 15,
       certificates: [
         {
           name: 'İzmir DevFest\'24',
@@ -76,11 +67,26 @@ export function About({ addXP }: AboutProps) {
       ]
     },
     {
+      id: 'volunteer',
+      title: 'Gönüllülük',
+      kesifSkoru: 15,
+      publications: [
+        {
+          title: 'Gamfed Türkiye',
+          platform: 'Topluluk Üyesi',
+          date: '2024'
+        },
+        {
+          title: 'Peregrine Oyun Stüdyosu',
+          platform: 'Blueprint Geliştiricisi',
+          date: '2024'
+        }
+      ]
+    },
+    {
       id: 'hobbies',
-      icon: '⭐',
-      title: 'Hobiler & İlgi Alanları',
-      description: 'Boş Zamanlarımda Neler Yaparım?',
-      xp: 10,
+      title: 'Hobiler',
+      kesifSkoru: 10,
       publications: [
         {
           title: 'Aktif Yaşam',
@@ -101,93 +107,131 @@ export function About({ addXP }: AboutProps) {
     }
   ];
 
-  const unlockAchievement = (id: string, xp: number) => {
+  const unlockAchievement = (id: string, kesifSkoru: number) => {
     if (!unlockedAchievements.includes(id)) {
       setUnlockedAchievements([...unlockedAchievements, id]);
-      addXP(xp);
+      addKeşifSkoru(kesifSkoru);
+    }
+    
+    // Toggle selected card
+    if (selectedCard === id) {
+      setSelectedCard(null);
+    } else {
+      setSelectedCard(id);
+    }
+  };
+
+  const renderDetails = (achievement: Achievement) => {
+    switch (achievement.id) {
+      case 'education':
+        return achievement.details && (
+          <div className="text-base sm:text-sm text-gray-400">
+            <p className="text-xl sm:text-lg font-semibold mb-3">{achievement.details.university}</p>
+            <p className="text-base sm:text-sm mb-1">{achievement.details.department}</p>
+            <p className="text-base sm:text-sm mb-1">GPA: {achievement.details.gpa}</p>
+            <p className="text-base sm:text-sm">Mezuniyet: {achievement.details.graduationYear}</p>
+          </div>
+        );
+      case 'events':
+        return achievement.certificates && (
+          <div className="text-base sm:text-sm text-gray-400">
+            <p className="text-xl sm:text-lg font-semibold mb-4">Katıldığım Etkinlikler</p>
+            {achievement.certificates.map((cert, index) => (
+              <div key={index} className="mb-4">
+                <p className="text-lg sm:text-base font-semibold mb-1">{cert.name}</p>
+                <p className="text-base sm:text-sm">{cert.issuer} • {cert.date}</p>
+              </div>
+            ))}
+          </div>
+        );
+      case 'volunteer':
+      case 'hobbies':
+        return achievement.publications && (
+          <div className="text-base sm:text-sm text-gray-400">
+            <p className="text-xl sm:text-lg font-semibold mb-4">
+              {achievement.id === 'volunteer' ? 'Gönüllü Faaliyetlerim' : 'Hobilerim ve İlgi Alanlarım'}
+            </p>
+            {achievement.publications.map((pub, index) => (
+              <div key={index} className="mb-4">
+                <p className="text-lg sm:text-base font-semibold mb-1">{pub.title}</p>
+                <p className="text-base sm:text-sm">{pub.platform}</p>
+                {pub.date && <p className="text-base sm:text-sm">{pub.date}</p>}
+              </div>
+            ))}
+          </div>
+        );
+      default:
+        return null;
     }
   };
 
   return (
-    <section id="about" className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
-        <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-center text-gray-100 flex items-center justify-center gap-2">
-          <span className="text-2xl">🎯</span>
-          Karakter Özellikleri
-        </h2>
-
-        <div className="mb-8 sm:mb-12 p-4 sm:p-6 bg-gray-900 rounded-lg shadow-lg">
-          <h3 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-gray-100 flex items-center gap-2">
-            <span className="text-xl">🚀</span>
-            Geliştirici & Girişimci Yolculuğu
-          </h3>
-          <p className="text-sm sm:text-base text-gray-400 mb-4 sm:mb-6">
+    <section id="about" className="pt-0 pb-12 sm:pb-16 md:pb-20 px-4 sm:px-6 lg:px-8 bg-black">
+      <div className="max-w-6xl mx-auto space-y-8">
+        {/* Journey Section */}
+        <div className="p-6 bg-black border border-gray-800 rounded-lg shadow-lg">
+          <h2 className="text-xl font-semibold text-white mb-4">
+            🚀 Programcılık & Girişimcilik Yolculuğu
+          </h2>
+          <p className="text-sm text-gray-400 mb-6">
             Yazılım geliştirme ve girişimcilik tutkusuyla çıktığım yolculukta, bir yandan KOBİ'lere özel yazılım çözümleri üreterek iş dünyası deneyimi kazanırken, diğer yandan Unreal Engine ve C++ ile AAA kalitesinde oyunlar geliştirmeyi hedefliyorum. Yapay zeka teknolojilerini hem işletme çözümlerine hem de oyun geliştirme süreçlerine entegre ederek yenilikçi projeler üretiyorum.
           </p>
-          <div className="space-y-1.5 sm:space-y-2 text-sm sm:text-base text-gray-400">
-            <p>🎮 Oyun Geliştirme: Unreal Engine, C++, Blueprint</p>
-            <p>💼 İş Çözümleri: KOBİ'lere Özel Yazılım, İş Süreç Otomasyonu</p>
-            <p>🤖 Teknoloji Entegrasyonu: Yapay Zeka, Süreç Optimizasyonu</p>
-            <p>🚀 Hedef: AAA Oyun Stüdyosu & Teknoloji Girişimi</p>
+
+          <div className="space-y-4 text-sm text-gray-400">
+            <p className="flex items-center gap-2">
+              <span>🎮</span>
+              <span>Oyun Geliştirme: Unreal Engine, C++, Blueprint</span>
+            </p>
+            <p className="flex items-center gap-2">
+              <span>💼</span>
+              <span>İş Çözümleri: KOBİ'lere Özel Yazılım, İş Süreç Otomasyonu</span>
+            </p>
+            <p className="flex items-center gap-2">
+              <span>🤖</span>
+              <span>Teknoloji Entegrasyonu: Yapay Zeka, Süreç Optimizasyonu</span>
+            </p>
+            <p className="flex items-center gap-2">
+              <span>🚀</span>
+              <span>Hedef: AAA Oyun Stüdyosu & Teknoloji Girişimi</span>
+            </p>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-          {achievements.map(({ id, icon, title, description, xp, ...details }) => (
-            <div
-              key={id}
-              className={`p-4 sm:p-6 rounded-lg shadow-lg cursor-pointer transform hover:scale-105 transition-all ${
-                unlockedAchievements.includes(id)
-                  ? 'bg-gray-800 text-gray-100'
-                  : 'bg-gray-900 text-gray-100'
-              }`}
-              onClick={() => unlockAchievement(id, xp)}
-            >
-              <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
-                <span className="text-2xl">{icon}</span>
-                <h3 className="text-base sm:text-lg font-semibold">{title}</h3>
-                {!unlockedAchievements.includes(id) && (
-                  <span className="ml-auto text-xs bg-gray-200 text-gray-900 px-2 py-1 rounded-full animate-pulse">
-                    +{xp} XP
-                  </span>
-                )}
-              </div>
-              <p className={`text-xs sm:text-sm text-gray-400`}>
-                {description}
-              </p>
-              {unlockedAchievements.includes(id) && (
-                <div className="mt-3 sm:mt-4 space-y-1.5 sm:space-y-2">
-                  {id === 'education' && details.details && (
-                    <div className="text-xs sm:text-sm text-gray-400">
-                      <p>{details.details.university}</p>
-                      <p>{details.details.department}</p>
-                      <p>GPA: {details.details.gpa}</p>
-                    </div>
-                  )}
-                  {id === 'events' && details.certificates && (
-                    <div className="text-xs sm:text-sm text-gray-400">
-                      {details.certificates.map((cert, index) => (
-                        <div key={index} className="mb-1.5 sm:mb-2">
-                          <p className="font-semibold">{cert.name}</p>
-                          <p>{cert.issuer} • {cert.date}</p>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                  {id === 'hobbies' && details.publications && (
-                    <div className="text-xs sm:text-sm text-gray-400">
-                      {details.publications.map((pub, index) => (
-                        <div key={index} className="mb-1.5 sm:mb-2">
-                          <p className="font-semibold">{pub.title}</p>
-                          <p>{pub.platform}</p>
-                        </div>
-                      ))}
-                    </div>
+        {/* Achievement Cards Section */}
+        <div className="space-y-6">
+          {/* Achievement Cards Grid */}
+          <div className="grid grid-cols-4 gap-2 sm:gap-4">
+            {achievements.map((achievement) => (
+              <div key={achievement.id}>
+                <div
+                  onClick={() => unlockAchievement(achievement.id, achievement.kesifSkoru)}
+                  className={`p-2 sm:p-6 rounded-lg shadow-lg cursor-pointer transition-all duration-300 h-full flex flex-col justify-center items-center ${
+                    unlockedAchievements.includes(achievement.id)
+                      ? 'bg-black border border-gray-800 hover:border-gray-700'
+                      : 'bg-black border border-gray-900 hover:border-gray-800'
+                  }`}
+                >
+                  <h3 className="text-xs sm:text-lg font-semibold text-white text-center mb-1 sm:mb-2">{achievement.title}</h3>
+                  {!unlockedAchievements.includes(achievement.id) && (
+                    <div className="text-[10px] sm:text-base text-amber-400 text-center animate-pulse">+{achievement.kesifSkoru}</div>
                   )}
                 </div>
-              )}
-            </div>
-          ))}
+              </div>
+            ))}
+          </div>
+
+          {/* Details Section - In Flow */}
+          {selectedCard && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.2 }}
+              className="w-full p-3 sm:p-6 bg-black border border-gray-800 rounded-lg shadow-xl"
+            >
+              {renderDetails(achievements.find(a => a.id === selectedCard)!)}
+            </motion.div>
+          )}
         </div>
       </div>
     </section>
