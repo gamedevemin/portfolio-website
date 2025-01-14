@@ -73,7 +73,7 @@ export function Hero({ keşifSkoru, addKeşifSkoru }: HeroProps) {
           className="flex justify-center items-center gap-4"
         >
           <motion.a
-            href="https://github.com/yourusername"
+            href="https://github.com/gamedevemin"
             target="_blank"
             rel="noopener noreferrer"
             className="text-gray-500 hover:text-gray-200 transition-colors duration-300 ease-out"
@@ -83,7 +83,7 @@ export function Hero({ keşifSkoru, addKeşifSkoru }: HeroProps) {
             <Github className="w-5 h-5" />
           </motion.a>
           <motion.a
-            href="https://linkedin.com/in/yourusername"
+            href="https://linkedin.com/in/devemin"
             target="_blank"
             rel="noopener noreferrer"
             className="text-gray-500 hover:text-gray-200 transition-colors duration-300 ease-out"
@@ -93,7 +93,7 @@ export function Hero({ keşifSkoru, addKeşifSkoru }: HeroProps) {
             <Linkedin className="w-5 h-5" />
           </motion.a>
           <motion.a
-            href="https://youtube.com/@yourusername"
+            href="https://youtube.com/@emincelenk"
             target="_blank"
             rel="noopener noreferrer"
             className="text-gray-500 hover:text-gray-200 transition-colors duration-300 ease-out"
@@ -103,7 +103,7 @@ export function Hero({ keşifSkoru, addKeşifSkoru }: HeroProps) {
             <Youtube className="w-5 h-5" />
           </motion.a>
           <motion.a
-            href="mailto:your.email@example.com"
+            href="mailto:emntarcin@tutamail.com"
             className="text-gray-500 hover:text-gray-200 transition-colors duration-300 ease-out"
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.3 }}

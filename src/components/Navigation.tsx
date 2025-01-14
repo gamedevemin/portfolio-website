@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
-import ReactConfetti from 'react-confetti';
-import { Flame, ChevronDown } from 'lucide-react';
+import { Flame, ChevronDown, MessageCircle } from 'lucide-react';
+import { Chat } from './Chat';
+import { Z_INDEX } from '../styles/z-index';
+import { Confetti } from './Confetti';
 
 interface NavigationProps {
   keşifSkoru: number;
   onPageChange: (page: string) => void;
+  onProjectClick?: (projectId: string) => void;
 }
 
 interface MenuItem {
@@ -34,108 +37,95 @@ const DROPDOWN_ITEMS: DropdownItem[] = [
   { href: '/game-studio', label: 'Oyun Stüdyosu', icon: <Flame className="w-4 h-4 text-amber-500" /> },
 ];
 
-// Konfeti ayarları
-const CONFETTI_CONFIG = {
-  recycle: false,
-  numberOfPieces: 500,
-  gravity: 0.3,
-  friction: 0.99,
-  wind: 0.01,
-  ticks: 500,
-  spread: 180,
-  startVelocity: 50,
-  scalar: 1.2,
-  colors: ['#FFD700', '#FFA500', '#FFFF00', '#F59E0B', '#FBBF24'],
-  shapes: ['circle'],
-  dragFriction: 0.12,
-  stagger: 5,
-  shapeSize: 1
+const MILESTONES = Array.from({ length: 13 }, (_, i) => (i + 1) * 100);
+
+const getIntensityForScore = (score: number): 'low' | 'medium' | 'high' => {
+  if (score >= 1000) return 'high';
+  if (score >= 500) return 'medium';
+  return 'low';
 };
 
-export function Navigation({ keşifSkoru, onPageChange }: NavigationProps) {
+export function Navigation({ keşifSkoru, onPageChange, onProjectClick }: NavigationProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isFlameAnimating, setIsFlameAnimating] = useState(false);
   const [activeMenuItem, setActiveMenuItem] = useState('/portfolio');
+  const [isChatOpen, setIsChatOpen] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
-  const [lastCelebrated, setLastCelebrated] = useState(0);
-  const [dimensions, setDimensions] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight
-  });
+  const [lastCelebrated, setLastCelebrated] = useState<number | null>(null);
+  const [hasShownFirstChat, setHasShownFirstChat] = useState(false);
+  const [hasUsedHamburger, setHasUsedHamburger] = useState(false);
+  const [celebrationId, setCelebrationId] = useState(0);
 
-  // Pencere boyutunu takip et
-  useEffect(() => {
-    const handleResize = () => {
-      setDimensions({
-        width: window.innerWidth,
-        height: window.innerHeight
-      });
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  // Konfeti efektini kontrol et
-  useEffect(() => {
-    console.log('Keşif Skoru Değişti:', keşifSkoru);
-    console.log('Son Kutlanan:', lastCelebrated);
-    console.log('Konfeti Durumu:', showConfetti);
-    console.log('Mod 100:', keşifSkoru % 100);
-
-    const shouldShowConfetti = keşifSkoru % 100 === 0 && keşifSkoru > 0 && keşifSkoru !== lastCelebrated;
-    console.log('Konfeti Gösterilmeli mi?', shouldShowConfetti);
-
-    if (shouldShowConfetti) {
-      console.log('Konfeti Tetikleniyor!');
+  // Utility function to trigger celebration
+  const triggerCelebration = () => {
+    setShowConfetti(false); // Reset first
+    setTimeout(() => {
       setShowConfetti(true);
       setIsFlameAnimating(true);
-      setLastCelebrated(keşifSkoru);
-
-      // Alev animasyonunu kapat
+      setCelebrationId(prev => prev + 1);
+      
       setTimeout(() => {
-        setIsFlameAnimating(false);
-      }, 500);
-
-      // Konfeti animasyonunu kapat
-      setTimeout(() => {
-        console.log('Konfeti Kapatılıyor');
         setShowConfetti(false);
-      }, 5000);
-    }
-  }, [keşifSkoru]);
+        setIsFlameAnimating(false);
+      }, 3000);
+    }, 50);
+  };
 
-  // Menü öğesine tıklama işleyicisi
+  // Check for first 20 points and subsequent celebrations
+  useEffect(() => {
+    if (keşifSkoru >= 20) {
+      const shouldCelebrate = lastCelebrated === null || keşifSkoru - lastCelebrated >= 20;
+      
+      if (shouldCelebrate) {
+        triggerCelebration();
+        setLastCelebrated(keşifSkoru);
+      }
+    }
+  }, [keşifSkoru, lastCelebrated]);
+
+  // Handle hamburger menu navigation
   const handleMenuClick = (href: string) => {
+    if (!hasUsedHamburger && isMenuOpen) {
+      triggerCelebration();
+      setHasUsedHamburger(true);
+    }
+    
     setActiveMenuItem(href);
     onPageChange(href);
     setIsMenuOpen(false);
     setIsDropdownOpen(false);
   };
 
+  // Handle chat celebration
+  const handleChatCelebration = () => {
+    if (!hasShownFirstChat) {
+      triggerCelebration();
+      setHasShownFirstChat(true);
+    }
+  };
+
+  // Handle project click celebration
+  const handleProjectClick = (projectId: string) => {
+    triggerCelebration();
+    onProjectClick?.(projectId);
+  };
+
   return (
     <>
-      {showConfetti && (
-        <div className="fixed inset-0" style={{ zIndex: 999999, pointerEvents: 'none' }}>
-          <ReactConfetti
-            width={dimensions.width}
-            height={dimensions.height}
-            {...CONFETTI_CONFIG}
-            recycle={false}
-            run={true}
-            style={{
-              position: 'fixed',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%'
-            }}
-          />
-        </div>
-      )}
+      <Confetti 
+        key={celebrationId}
+        isActive={showConfetti} 
+        intensity={getIntensityForScore(keşifSkoru)}
+      />
       
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-gray-800">
+      <Chat 
+        isOpen={isChatOpen} 
+        onClose={() => setIsChatOpen(false)}
+        onFirstMessage={handleChatCelebration}
+      />
+      
+      <nav className="fixed top-0 left-0 right-0" style={{ zIndex: Z_INDEX.NAVBAR }}>
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-14 sm:h-16">
             {/* Mobil menü butonu */}
@@ -175,7 +165,7 @@ export function Navigation({ keşifSkoru, onPageChange }: NavigationProps) {
 
                 {/* Dropdown Menu */}
                 {isDropdownOpen && (
-                  <div className="absolute top-full right-0 mt-1 w-48 bg-gray-900 rounded-lg shadow-lg py-1 z-50">
+                  <div className="absolute top-full right-0 mt-1 w-48 bg-gray-900 rounded-lg shadow-lg py-1" style={{ zIndex: Z_INDEX.NAVBAR_DROPDOWN }}>
                     {DROPDOWN_ITEMS.map((item) => (
                       <button
                         key={item.href}
@@ -189,10 +179,19 @@ export function Navigation({ keşifSkoru, onPageChange }: NavigationProps) {
                   </div>
                 )}
               </div>
+
+              {/* Chat Button - Desktop */}
+              <button
+                onClick={() => setIsChatOpen(!isChatOpen)}
+                className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 flex items-center gap-1 group"
+              >
+                <MessageCircle className="w-4 h-4 text-gray-400 group-hover:text-gray-300 transition-colors" />
+                <span className="group-hover:text-white">Sohbet</span>
+              </button>
             </div>
 
-            {/* Keşif Skoru Counter */}
-            <div className="flex items-center">
+            {/* Keşif Skoru Counter - Desktop */}
+            <div className="hidden lg:flex items-center">
               <div className="keşif-skoru-button bg-gray-800/90 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm hover:bg-gray-700/90 transition-all duration-300 relative overflow-hidden group">
                 <Flame 
                   className={`w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-500 transition-all duration-300 ${isFlameAnimating ? 'animate-flame-pulse scale-125' : ''} group-hover:scale-110 group-hover:rotate-12`} 
@@ -203,6 +202,28 @@ export function Navigation({ keşifSkoru, onPageChange }: NavigationProps) {
                   <div className="absolute inset-0 bg-gradient-to-r from-amber-500/20 to-amber-400/20 animate-gradient" />
                 )}
               </div>
+            </div>
+
+            {/* Keşif Skoru Counter ve Chat Button - Mobile */}
+            <div className="lg:hidden flex items-center justify-end space-x-2 flex-1">
+              <div className="flex-1 flex justify-center">
+                <div className="keşif-skoru-button bg-gray-800/90 text-white px-3 py-1.5 rounded-full flex items-center gap-1.5 text-xs hover:bg-gray-700/90 transition-all duration-300 relative overflow-hidden group">
+                  <Flame 
+                    className={`w-3.5 h-3.5 text-amber-500 transition-all duration-300 ${isFlameAnimating ? 'animate-flame-pulse scale-125' : ''} group-hover:scale-110 group-hover:rotate-12`} 
+                  />
+                  <span>{keşifSkoru}</span>
+                  {isFlameAnimating && (
+                    <div className="absolute inset-0 bg-gradient-to-r from-amber-500/20 to-amber-400/20 animate-gradient" />
+                  )}
+                </div>
+              </div>
+              
+              <button
+                onClick={() => setIsChatOpen(!isChatOpen)}
+                className="flex items-center justify-center w-8 h-8 bg-gray-900 hover:bg-gray-800 text-gray-400 hover:text-gray-300 rounded-full transition-all duration-200 border border-gray-800 hover:border-gray-700"
+              >
+                <MessageCircle className="w-4 h-4" />
+              </button>
             </div>
           </div>
 

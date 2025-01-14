@@ -1,0 +1,131 @@
+{
+  "projects": [
+    {
+      "id": "hypernova-prompt",
+      "title": "HYPERNOVA-PROMPT MOTORU V2.0",
+      "shortDescription": "Kuantum seviyesinde düşünebilen, paralel işlem yapabilen ve üstel öğrenme yeteneğine sahip yapay zeka prompt motoru. Şu anda test aşamasında olan bu motor, sürekli gelişen ve kendini iyileştiren bir yapıya sahip.",
+      "thumbnail": "https://images.unsplash.com/photo-1620712943543-bcc4688e7485",
+      "period": "2024",
+      "technologies": [
+        "Kuantum İşlemci",
+        "Paralel Hesaplama",
+        "Üstel Öğrenme",
+        "Dinamik Adaptasyon",
+        "Çoklu Evren Analizi"
+      ],
+      "description": [
+        "Kimlik: Digital Game Maker",
+        "Uzmanlık Seviyesi: 0.999",
+        "Uyum Yeteneği: Kuantum Dinamik",
+        "Bilinç: Çoklu Evren Farkındalığı",
+        "İşlem Türü: Paralel",
+        "Öğrenme: Üstel"
+      ],
+      "features": [
+        "Kuantum seviyesinde hassas işlem yapabilme",
+        "Sınırsız yaratıcılık potansiyeli",
+        "Maksimum verimlilik optimizasyonu",
+        "Otomatik format adaptasyonu",
+        "Dinamik içerik yoğunluğu",
+        "Maksimum etki seviyesi",
+        "Mutlak hata önleme",
+        "Mükemmel kalite kontrol",
+        "Sürekli kendini iyileştirme",
+        "Test aşamasında aktif geliştirme"
+      ],
+      "keşifSkoru": 100,
+      "demoUrl": "#hypernova-demo"
+    },
+    {
+      "id": "cyberpong",
+      "title": "CYBERPONG",
+      "shortDescription": "Etik ve eğlenceli oyun geliştirmeye çalışan bilim insanı yanlışlıkla cyberpunk bir paddle'a dönüşüyor.",
+      "thumbnail": "https://images.unsplash.com/photo-1614294148960-9aa740632a87",
+      "period": "Aralık 2023",
+      "technologies": [
+        "React",
+        "TypeScript",
+        "Canvas API"
+      ],
+      "description": [
+        "Oyun Türü: Arcade",
+        "Platform: Web Tarayıcı",
+        "Core Loop: Paddle Kontrolü > Top Sekme > Skor Kazanma",
+        "Art Style: Neon-Retro",
+        "Oyun Süresi: Sınırsız"
+      ],
+      "features": [
+        "Smooth paddle hareketi",
+        "Neon görsel efektler",
+        "Skor takip sistemi",
+        "Responsive kontroller",
+        "Modern web teknolojileri"
+      ],
+      "keşifSkoru": 100,
+      "demoUrl": "#play-cyberpong"
+    },
+    {
+      "id": "emotional-platformer",
+      "title": "Platform Oyunu",
+      "shortDescription": "Duygusal hikaye odaklı, annesinin yadigarı peşinde koşan bir karakterin 2D platform macerası.",
+      "thumbnail": "/images/luminous-legacy-banner.png",
+      "period": "15.11.2024",
+      "technologies": [
+        "Unreal Engine",
+        "C#",
+        "2D Game Development",
+        "BTK Akademi Tutorial"
+      ],
+      "description": [
+        "Oyun Türü: Story-Driven 2D Platform",
+        "Hedef Kitle: 12+ yaş, Duygusal hikaye severler",
+        "Platform: PC",
+        "Core Loop: Platform > Hikaye > Zorluk > Duygusal Bağ",
+        "Art Style: 2D Side-Scrolling",
+        "Oyun Süresi: Demo - 15 dakika"
+      ],
+      "features": [
+        "Hikaye: Annesinden yadigar bandanadanın peşinde duygusal yolculuk",
+        "Level Design: Artan zorlukta platform bölümleri",
+        "Karakter Motivasyonu: Bandana değil, anne anısı peşinde koşma",
+        "Oynanış: Platform zorlukları ile duygu yoğunluğu artışı",
+        "Görsel Öğe: Bandanadaki ışığın sembolik kullanımı",
+        "Zorluk Sistemi: Duygusal motivasyonla ilerleyen platform zorlukları",
+        "Proje Durumu: Yarım kalmış demo"
+      ],
+      "keşifSkoru": 100
+    },
+    {
+      "id": "location-finder",
+      "title": "Konum Bulucu",
+      "shortDescription": "OpenStreetMap kullanarak mahalle bazlı işyeri ve konum bilgisi toplama aracı.",
+      "thumbnail": "https://images.unsplash.com/photo-1508674861872-a51e06c50c9b",
+      "period": "20.12.2024",
+      "technologies": [
+        "React",
+        "Tailwind CSS",
+        "OpenStreetMap API",
+        "TypeScript",
+        "Nominatim Search"
+      ],
+      "description": [
+        "Proje Tipi: Web Uygulaması",
+        "Hedef Kitle: Yerel işletme araştırmacıları",
+        "Platform: Web Tarayıcı",
+        "Core Loop: Mahalle Gir > Anahtar Kelime Gir > Sonuçları Kopyala",
+        "UI Style: Minimalist, Modern",
+        "API: Ücretsiz OpenStreetMap servisleri"
+      ],
+      "features": [
+        "UI Bileşenleri: 2 input alanı, arama butonu, kopyalama butonu",
+        "Input 1: Mahalle adı girişi",
+        "Input 2: Anahtar kelime girişi (örn: berber, market)",
+        "Çıktı: İşletme adı, adres, iletişim bilgileri",
+        "Veri Kaynağı: OpenStreetMap ve Nominatim",
+        "Kopyalama: Tek tıkla tüm sonuçları panoya kopyalama",
+        "Maliyet: Tamamen ücretsiz kullanım"
+      ],
+      "keşifSkoru": 100
+    }
+  ]
+} 
