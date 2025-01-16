@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Flame, ChevronDown, MessageCircle, Medal, X, Send, Mail, Check, ArrowLeft, Lock } from 'lucide-react';
+import { ChevronDown, MessageCircle, Medal, Send, Check, ArrowLeft, Lock } from 'lucide-react';
 import { Chat } from './Chat';
 import { Z_INDEX } from '../styles/z-index';
 import { Confetti } from './Confetti';
 import { AnimatePresence, motion } from 'framer-motion';
 import emailjs from '@emailjs/browser';
 import { PAGE_STATES } from '../App';
+import React from 'react';
 
 interface NavigationProps {
   keşifSkoru: number;
@@ -92,6 +93,25 @@ const InputStage = ({ value, onChange, onSubmit, onBack, placeholder, icon, show
   </motion.div>
 );
 
+// Memoized components for better performance
+const MemoizedChatButton = React.memo(({ onClick, isChatOpen }: { onClick: () => void, isChatOpen: boolean }) => (
+  <button
+    onClick={onClick}
+    className="relative overflow-hidden bg-gray-800/90 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-700/90 transition-all duration-300 group border border-gray-700/50 hover:border-gray-600/50"
+  >
+    <MessageCircle className="w-4 h-4 text-[#4efaa7] transition-all duration-300 group-hover:scale-110 group-hover:rotate-12" />
+  </button>
+));
+
+const MemoizedScoreDisplay = React.memo(({ score, isAnimating, hasShown }: { score: number, isAnimating: boolean, hasShown: boolean }) => (
+  <div className={`keşif-skoru-button bg-black/90 text-white px-3 py-1.5 rounded-full flex items-center gap-1.5 text-xs border border-[#4efaa7]/20 hover:border-[#4efaa7]/30 ${!hasShown ? 'opacity-0' : 'animate-score-reveal'}`}>
+    <Medal 
+      className={`w-3.5 h-3.5 text-[#4efaa7] transition-all duration-300 ${isAnimating ? 'animate-coin-pulse scale-125' : ''}`} 
+    />
+    <span>{score}</span>
+  </div>
+));
+
 export function Navigation({ keşifSkoru, onPageChange, onProjectClick }: NavigationProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -102,7 +122,6 @@ export function Navigation({ keşifSkoru, onPageChange, onProjectClick }: Naviga
   const [lastCelebrated, setLastCelebrated] = useState<number | null>(null);
   const [hasShownFirstChat, setHasShownFirstChat] = useState(false);
   const [hasUsedHamburger, setHasUsedHamburger] = useState(false);
-  const [celebrationId, setCelebrationId] = useState(0);
   const [hasShownScore, setHasShownScore] = useState(false);
   const [stage, setStage] = useState('message');
   const [message, setMessage] = useState('');
@@ -348,12 +367,7 @@ export function Navigation({ keşifSkoru, onPageChange, onProjectClick }: Naviga
 
                 {/* Chat Button - Desktop */}
                 <div className="relative">
-                  <button
-                    onClick={() => setIsChatOpen(!isChatOpen)}
-                    className="relative overflow-hidden bg-gray-800/90 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-700/90 transition-all duration-300 group border border-gray-700/50 hover:border-gray-600/50"
-                  >
-                    <MessageCircle className="w-4 h-4 text-[#4efaa7] transition-all duration-300 group-hover:scale-110 group-hover:rotate-12" />
-                  </button>
+                  <MemoizedChatButton onClick={() => setIsChatOpen(!isChatOpen)} isChatOpen={isChatOpen} />
 
                   {/* Desktop Chat Panel */}
                   <AnimatePresence>
@@ -467,16 +481,7 @@ export function Navigation({ keşifSkoru, onPageChange, onProjectClick }: Naviga
               {/* Right Side Items */}
               <div className="flex items-center gap-3 ml-auto">
                 {/* Keşif Skoru Counter - Desktop */}
-                <div className={`keşif-skoru-button bg-gray-800/90 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm hover:bg-gray-700/90 transition-all duration-300 relative overflow-hidden group ${!hasShownScore ? 'opacity-0' : 'animate-score-reveal'}`}>
-                  <Medal 
-                    className={`w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#4efaa7] transition-all duration-300 ${isFlameAnimating ? 'animate-coin-pulse scale-125' : ''} group-hover:scale-110 group-hover:rotate-12`} 
-                  />
-                  <span className="hidden sm:inline">Keşif Skoru:</span>
-                  <span>{keşifSkoru}</span>
-                  {isFlameAnimating && (
-                    <div className="animate-score-shine" />
-                  )}
-                </div>
+                <MemoizedScoreDisplay score={keşifSkoru} isAnimating={isFlameAnimating} hasShown={hasShownScore} />
               </div>
             </div>
 
