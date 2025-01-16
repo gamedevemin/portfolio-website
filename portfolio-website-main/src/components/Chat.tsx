@@ -77,7 +77,7 @@ const InputStage = ({ value, onChange, onSubmit, onBack, placeholder, icon, show
     {showBackButton && (
       <button
         onClick={onBack}
-        className="p-2 rounded-xl bg-gray-800/50 text-gray-400 hover:text-white hover:bg-gray-700/50 transition-colors"
+        className="p-2 rounded-xl bg-black text-gray-400 hover:text-white hover:bg-black/70 transition-colors border border-[#4efaa7]/20"
       >
         <ArrowLeft className="w-5 h-5" />
       </button>
@@ -91,13 +91,13 @@ const InputStage = ({ value, onChange, onSubmit, onBack, placeholder, icon, show
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full pl-11 pr-4 py-3 rounded-xl bg-gray-800/50 text-white placeholder-gray-500 border border-gray-700/50 focus:border-[#4efaa7] focus:outline-none transition-all duration-300"
+        className="w-full pl-11 pr-4 py-3 rounded-xl bg-black text-white placeholder-gray-500 border border-[#4efaa7]/20 focus:border-[#4efaa7]/40 focus:outline-none transition-all duration-300"
         onKeyPress={(e) => e.key === 'Enter' && onSubmit()}
       />
     </div>
     <button
       onClick={onSubmit}
-      className="p-3 rounded-xl bg-gradient-to-r from-[#4efaa7] to-[#7ffbc4] hover:from-[#3ef596] hover:to-[#6efab3] text-gray-900 transition-all duration-300"
+      className="p-3 rounded-xl bg-black text-[#4efaa7] hover:text-white border border-[#4efaa7]/20 transition-all duration-300"
     >
       <Send className="w-5 h-5" />
     </button>
@@ -186,22 +186,22 @@ export function Chat({ isOpen, onClose, onFirstMessage }: ChatProps) {
             initial="hidden"
             animate="visible"
             exit="hidden"
-            className="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm z-50"
+            className="fixed inset-0 flex items-center justify-center bg-black/80 backdrop-blur-sm z-50"
           >
             <motion.div
               variants={modalVariants}
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="bg-gray-900/95 p-6 rounded-2xl shadow-2xl w-full max-w-md mx-4 border border-gray-800/50"
+              className="bg-black p-6 rounded-2xl shadow-2xl w-full max-w-md mx-4 border border-[#4efaa7]/20"
             >
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-bold bg-gradient-to-r from-[#4efaa7] to-[#7ffbc4] bg-clip-text text-transparent">
+                <h2 className="text-xl font-bold text-white">
                   Mesaj Gönder
                 </h2>
                 <button 
                   onClick={onClose}
-                  className="text-gray-400 hover:text-white p-1 hover:bg-gray-800/50 rounded-full transition-colors"
+                  className="text-gray-400 hover:text-white p-1 hover:bg-black/70 rounded-full transition-colors border border-[#4efaa7]/20"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -216,7 +216,7 @@ export function Chat({ isOpen, onClose, onFirstMessage }: ChatProps) {
                       onChange={setMessage}
                       onSubmit={handleMessageSubmit}
                       placeholder="Mesajınız..."
-                      icon={<Send className="w-5 h-5 text-gray-500" />}
+                      icon={<Send className="w-5 h-5 text-[#4efaa7]" />}
                     />
                   )}
 
@@ -228,7 +228,7 @@ export function Chat({ isOpen, onClose, onFirstMessage }: ChatProps) {
                       onSubmit={handleContactSubmit}
                       onBack={handleBack}
                       placeholder="E-posta veya telefon numarası"
-                      icon={<Mail className="w-5 h-5 text-gray-500" />}
+                      icon={<Mail className="w-5 h-5 text-[#4efaa7]" />}
                       showBackButton
                     />
                   )}
@@ -240,7 +240,7 @@ export function Chat({ isOpen, onClose, onFirstMessage }: ChatProps) {
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
-                      className="text-red-400 text-sm bg-red-500/10 px-4 py-2 rounded-lg border border-red-500/20"
+                      className="text-red-400 text-sm bg-black px-4 py-2 rounded-lg border border-red-500/20"
                     >
                       {error}
                     </motion.div>

@@ -39,13 +39,12 @@ interface InputStageProps {
 
 // Ana menü öğeleri
 const MAIN_MENU_ITEMS: MenuItem[] = [
-  { href: '/portfolio', label: 'Portfolyo', isActive: true }
+  { href: '/portfolio', label: 'Portfolyo', isActive: true },
+  { href: '/career', label: 'Karbon Solutions', isActive: false }
 ];
 
-// Dropdown menü öğeleri
-const DROPDOWN_ITEMS: DropdownItem[] = [
-  { href: 'career', label: 'Karbon Solutions', underConstruction: false }
-];
+// Dropdown menü öğeleri kaldırıldı çünkü zaten ana menüde var
+const DROPDOWN_ITEMS: DropdownItem[] = [];
 
 const MILESTONES = Array.from({ length: 13 }, (_, i) => (i + 1) * 100);
 
@@ -97,7 +96,7 @@ const InputStage = ({ value, onChange, onSubmit, onBack, placeholder, icon, show
 const MemoizedChatButton = React.memo(({ onClick, isChatOpen }: { onClick: () => void, isChatOpen: boolean }) => (
   <button
     onClick={onClick}
-    className="relative overflow-hidden bg-gray-800/90 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-700/90 transition-all duration-300 group border border-gray-700/50 hover:border-gray-600/50"
+    className="relative overflow-hidden bg-black text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-black/70 transition-all duration-300 group border border-black hover:border-black"
   >
     <MessageCircle className="w-4 h-4 text-[#4efaa7] transition-all duration-300 group-hover:scale-110 group-hover:rotate-12" />
   </button>
@@ -308,7 +307,7 @@ export function Navigation({ keşifSkoru, onPageChange, onProjectClick }: Naviga
         onFirstMessage={handleChatCelebration}
       />
       
-      <nav className="fixed top-0 left-0 right-0" style={{ zIndex: Z_INDEX.NAVBAR }}>
+      <nav className="fixed top-0 left-0 right-0 bg-black/80 backdrop-blur-md border-b border-[#4efaa7]/10" style={{ zIndex: Z_INDEX.NAVBAR }}>
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-14 sm:h-16">
             {/* Mobil menü butonu */}
@@ -331,39 +330,11 @@ export function Navigation({ keşifSkoru, onPageChange, onProjectClick }: Naviga
                   <button
                     key={item.href}
                     onClick={() => handleMenuClick(item.href)}
-                    className={`text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${activeMenuItem === item.href ? 'bg-gray-900 text-white' : ''}`}
+                    className={`text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${activeMenuItem === item.href ? 'bg-black text-white border border-black' : ''}`}
                   >
                     {item.label}
                   </button>
                 ))}
-                
-                {/* Daha Fazla Dropdown */}
-                <div className="relative">
-                  <button
-                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                    className={`text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center gap-1`}
-                  >
-                    Karbon Solutions
-                    <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
-                  </button>
-
-                  {/* Dropdown Menu */}
-                  {isDropdownOpen && (
-                    <div className="absolute top-full right-0 mt-1 w-48 bg-gray-900 rounded-lg shadow-lg py-1" style={{ zIndex: Z_INDEX.NAVBAR_DROPDOWN }}>
-                      {DROPDOWN_ITEMS.map((item) => (
-                        <button
-                          key={item.href}
-                          onClick={() => handleMenuClick(item.href)}
-                          className={`w-full text-left px-4 py-2 text-sm ${item.underConstruction ? 'text-gray-500 cursor-not-allowed' : 'text-gray-300 hover:text-white hover:bg-gray-800'} flex items-center justify-between`}
-                          disabled={item.underConstruction}
-                        >
-                          <span>{item.label}</span>
-                          {item.underConstruction && <Lock className="w-4 h-4" />}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
 
                 {/* Chat Button - Desktop */}
                 <div className="relative">
@@ -480,72 +451,52 @@ export function Navigation({ keşifSkoru, onPageChange, onProjectClick }: Naviga
 
               {/* Right Side Items */}
               <div className="flex items-center gap-3 ml-auto">
-                {/* Keşif Skoru Counter - Desktop */}
-                <MemoizedScoreDisplay score={keşifSkoru} isAnimating={isFlameAnimating} hasShown={hasShownScore} />
+                <div className={`keşif-skoru-button bg-black/90 text-white px-3 py-1.5 rounded-full flex items-center gap-1.5 text-xs border border-black hover:border-black ${!hasShownScore ? 'opacity-0 -translate-y-4' : 'opacity-100 translate-y-0 transition-all duration-1000 ease-out'}`}>
+                  <Medal 
+                    className={`w-3.5 h-3.5 text-[#4efaa7] transition-all duration-300 ${isFlameAnimating ? 'animate-coin-pulse scale-125' : ''}`} 
+                  />
+                  <span className="flex items-center gap-1">
+                    <span className="text-gray-400">Keşif Skoru:</span>
+                    <span>{keşifSkoru}</span>
+                  </span>
+                </div>
               </div>
             </div>
 
             {/* Mobil menü */}
-            <div className={`lg:hidden transition-all duration-300 ease-in-out ${isMenuOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0 pointer-events-none'}`}>
-              <div className="px-2 pt-2 pb-3 space-y-1 bg-gray-900/95 backdrop-blur-sm rounded-lg mt-2">
+            <div className={`lg:hidden fixed top-16 left-0 w-full transition-all duration-300 ease-in-out ${isMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`} style={{ zIndex: Z_INDEX.NAVBAR_DROPDOWN }}>
+              <div className="px-4 py-3 bg-black border-b border-black backdrop-blur-md">
                 {MAIN_MENU_ITEMS.map((item) => (
                   <button
                     key={item.href}
                     onClick={() => handleMenuClick(item.href)}
-                    className={`text-gray-300 hover:text-white block w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${activeMenuItem === item.href ? 'bg-gray-800 text-white' : ''}`}
+                    className={`text-gray-300 hover:text-white block w-full text-left px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 ${activeMenuItem === item.href ? 'bg-black/50 text-white border border-black' : ''}`}
                   >
                     {item.label}
                   </button>
                 ))}
-
-                {/* Mobil Dropdown Items */}
-                <div className="border-t border-[#4efaa7]/10 mt-2 pt-2">
-                  {DROPDOWN_ITEMS.map((item) => (
-                    <button
-                      key={item.href}
-                      onClick={() => handleMenuClick(item.href)}
-                      className={`text-gray-300 block w-full text-left px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 flex items-center justify-between ${item.underConstruction ? 'text-gray-500 cursor-not-allowed' : 'hover:text-white'}`}
-                      disabled={item.underConstruction}
-                    >
-                      <span>{item.label}</span>
-                      {item.underConstruction && <Lock className="w-4 h-4" />}
-                    </button>
-                  ))}
-                </div>
               </div>
             </div>
           </div>
         </div>
       </nav>
 
-      {/* Mobile Navigation */}
-      <nav className="md:hidden fixed top-0 left-0 right-0 h-16 bg-black border-b border-[#4efaa7]/10" style={{ zIndex: Z_INDEX.NAVBAR }}>
+      {/* Tablet/Mobile Navigation */}
+      <nav className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-black/80 backdrop-blur-md border-b border-black" style={{ zIndex: Z_INDEX.NAVBAR }}>
         <div className="flex items-center justify-between px-4 h-full">
           {/* Left - Chat Button */}
           <div className="flex items-center">
             <button
               onClick={() => setIsChatOpen(!isChatOpen)}
-              className="relative overflow-hidden bg-black/90 text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-black/70 transition-all duration-300 group border border-white/20 hover:border-white/30"
+              className="relative overflow-hidden bg-black text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-black/70 transition-all duration-300 group border border-black hover:border-black"
             >
               <MessageCircle className="w-5 h-5 text-white transition-all duration-300 group-hover:scale-110" />
             </button>
           </div>
 
-          {/* Center - Brand & Score */}
+          {/* Center - Score */}
           <div className="flex items-center relative">
-            <AnimatePresence>
-              {!hasShownScore && (
-                <motion.div
-                  initial={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -50 }}
-                  transition={{ duration: 0.5, ease: "easeInOut" }}
-                  className="absolute left-1/2 -translate-x-1/2 text-white font-outfit tracking-wider text-lg bg-gradient-to-r from-white via-gray-200 to-gray-300 bg-clip-text text-transparent"
-                >
-                  emnc
-                </motion.div>
-              )}
-            </AnimatePresence>
-            <div className={`keşif-skoru-button bg-black/90 text-white px-3 py-1.5 rounded-full flex items-center gap-1.5 text-xs border border-[#4efaa7]/20 hover:border-[#4efaa7]/30 ${!hasShownScore ? 'opacity-0' : 'animate-score-reveal'}`}>
+            <div className={`keşif-skoru-button bg-black/90 text-white px-3 py-1.5 rounded-full flex items-center gap-1.5 text-xs border border-black hover:border-black ${!hasShownScore ? 'opacity-0 -translate-y-4' : 'opacity-100 translate-y-0 transition-all duration-1000 ease-out'}`}>
               <Medal 
                 className={`w-3.5 h-3.5 text-[#4efaa7] transition-all duration-300 ${isFlameAnimating ? 'animate-coin-pulse scale-125' : ''}`} 
               />
@@ -557,7 +508,7 @@ export function Navigation({ keşifSkoru, onPageChange, onProjectClick }: Naviga
           <div className="flex items-center">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-white w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-200 border border-white/20 hover:border-white/30"
+              className="text-white w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-200 border border-black hover:border-black bg-black"
               aria-label="Toggle menu"
             >
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -566,60 +517,6 @@ export function Navigation({ keşifSkoru, onPageChange, onProjectClick }: Naviga
             </button>
           </div>
         </div>
-
-        {/* Mobile Menu Overlay */}
-        <AnimatePresence>
-          {isMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="fixed top-16 left-0 w-full bg-black border-b border-[#4efaa7]/10"
-            >
-              <div className="p-4 space-y-2">
-                {MAIN_MENU_ITEMS.map((item) => (
-                  <button
-                    key={item.href}
-                    onClick={() => handleMenuClick(item.href)}
-                    className={`text-gray-300 hover:text-white block w-full text-left px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 ${activeMenuItem === item.href ? 'bg-black/50 text-white border border-[#4efaa7]/20' : ''}`}
-                  >
-                    {item.label}
-                  </button>
-                ))}
-
-                {/* Mobile Dropdown Items */}
-                <div className="border-t border-[#4efaa7]/10 mt-2 pt-2">
-                  {DROPDOWN_ITEMS.map((item) => (
-                    <button
-                      key={item.href}
-                      onClick={() => handleMenuClick(item.href)}
-                      className={`text-gray-300 block w-full text-left px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 flex items-center justify-between ${item.underConstruction ? 'text-gray-500 cursor-not-allowed' : 'hover:text-white'}`}
-                      disabled={item.underConstruction}
-                    >
-                      <span>{item.label}</span>
-                      {item.underConstruction && <Lock className="w-4 h-4" />}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Mobile Chat Panel */}
-        <AnimatePresence>
-          {isChatOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="fixed top-16 left-0 w-full bg-black border-b border-[#4efaa7]/10 p-4"
-              style={{ zIndex: Z_INDEX.NAVBAR_DROPDOWN }}
-            >
-              {/* ... existing chat panel code ... */}
-            </motion.div>
-          )}
-        </AnimatePresence>
       </nav>
     </>
   );
