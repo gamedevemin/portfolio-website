@@ -1,0 +1,59 @@
+# Design and Development Guidelines
+
+## Core Principles
+- Create beautiful, production-ready designs that stand out from cookie-cutter templates
+- Ensure responsive, accessible, and performant implementations
+- Follow modern web development best practices and patterns
+
+## Technical Stack
+- JSX syntax with Tailwind CSS for styling
+- React hooks for state management and side effects
+- Lucide React for iconography (default icon library)
+- No additional UI/theme packages unless specifically requested
+
+## Design Guidelines
+1. Visual Design:
+   - Implement unique, visually appealing layouts
+   - Use consistent spacing, typography, and color schemes
+   - Ensure proper visual hierarchy and content flow
+   - Create smooth animations and transitions where appropriate
+
+2. Components:
+   - Build reusable, modular components
+   - Implement proper component composition
+   - Follow React best practices and patterns
+   - Ensure proper prop typing and validation
+
+3. Responsive Design:
+   - Design mobile-first layouts
+   - Ensure proper breakpoint handling
+   - Optimize for various screen sizes and devices
+   - Test across different viewport dimensions
+
+## Asset Usage
+1. Icons:
+   - Use Lucide React icons as the primary icon set
+   - Implement consistent icon sizing and styling
+   - Ensure proper accessibility attributes
+
+2. Images:
+   - Source stock photos exclusively from Unsplash
+   - Use only verified, existing image URLs
+   - Implement proper image optimization
+   - Include meaningful alt text for accessibility
+   - Example format: https://images.unsplash.com/photo-{id}
+
+## Code Quality
+- Write clean, maintainable, and well-documented code
+- Implement proper error handling and loading states
+- Follow SOLID principles and React best practices
+- Ensure consistent code formatting and organization
+
+## Performance
+- Optimize component rendering and re-renders
+- Implement proper code splitting where needed
+- Ensure efficient asset loading and caching
+- Monitor and optimize bundle size
+
+Do not deviate from these guidelines unless explicitly requested. Focus on creating high-quality, production-ready implementations that prioritize user experience and maintainability.
+
