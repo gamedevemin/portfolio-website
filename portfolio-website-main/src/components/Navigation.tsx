@@ -343,7 +343,7 @@ export function Navigation({ keşifSkoru, onPageChange, onProjectClick }: Naviga
                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                     className={`text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center gap-1`}
                   >
-                    Daha Fazla
+                    Karbon Solutions
                     <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
                   </button>
 
@@ -536,9 +536,10 @@ export function Navigation({ keşifSkoru, onPageChange, onProjectClick }: Naviga
             <AnimatePresence>
               {!hasShownScore && (
                 <motion.div
-                  initial={{ opacity: 1 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  className="absolute left-1/2 -translate-x-1/2 text-white font-medium"
+                  initial={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -50 }}
+                  transition={{ duration: 0.5, ease: "easeInOut" }}
+                  className="absolute left-1/2 -translate-x-1/2 text-white font-outfit tracking-wider text-lg bg-gradient-to-r from-white via-gray-200 to-gray-300 bg-clip-text text-transparent"
                 >
                   emnc
                 </motion.div>
