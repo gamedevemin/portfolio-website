@@ -43,11 +43,7 @@ const MAIN_MENU_ITEMS: MenuItem[] = [
 
 // Dropdown menü öğeleri
 const DROPDOWN_ITEMS: DropdownItem[] = [
-  { href: 'services', label: 'Hizmetler', underConstruction: true },
-  { href: 'education', label: 'Eğitim', underConstruction: true },
-  { href: 'scholarship', label: 'Burs', underConstruction: false },
-  { href: 'career', label: 'Kariyer', underConstruction: false },
-  { href: 'library', label: 'Kütüphanem', underConstruction: true }
+  { href: 'career', label: 'Karbon Solutions', underConstruction: false }
 ];
 
 const MILESTONES = Array.from({ length: 13 }, (_, i) => (i + 1) * 100);
