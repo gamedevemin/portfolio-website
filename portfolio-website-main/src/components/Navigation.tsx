@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Flame, ChevronDown, MessageCircle, Medal, X, Send, Mail, Check, ArrowLeft, Construction } from 'lucide-react';
+import { Flame, ChevronDown, MessageCircle, Medal, X, Send, Mail, Check, ArrowLeft, Lock } from 'lucide-react';
 import { Chat } from './Chat';
 import { Z_INDEX } from '../styles/z-index';
 import { Confetti } from './Confetti';
@@ -147,8 +147,6 @@ export function Navigation({ keşifSkoru, onPageChange, onProjectClick }: Naviga
   const handleDropdownItemClick = (href: string) => {
     const item = DROPDOWN_ITEMS.find(item => item.href === href);
     if (item?.underConstruction) {
-      setShowConstructionNotice(true);
-      setTimeout(() => setShowConstructionNotice(false), 3000);
       return;
     }
     setActiveMenuItem(href);
@@ -160,8 +158,6 @@ export function Navigation({ keşifSkoru, onPageChange, onProjectClick }: Naviga
   const handleMenuClick = (href: string) => {
     const item = DROPDOWN_ITEMS.find(item => item.href === href);
     if (item?.underConstruction) {
-      setShowConstructionNotice(true);
-      setTimeout(() => setShowConstructionNotice(false), 3000);
       return;
     }
 
@@ -170,7 +166,6 @@ export function Navigation({ keşifSkoru, onPageChange, onProjectClick }: Naviga
       setHasUsedHamburger(true);
     }
     
-    // Update active menu item and trigger page change
     setActiveMenuItem(href);
     onPageChange(href.startsWith('/') ? href : `/${href}`);
     setIsMenuOpen(false);
@@ -344,10 +339,11 @@ export function Navigation({ keşifSkoru, onPageChange, onProjectClick }: Naviga
                         <button
                           key={item.href}
                           onClick={() => handleMenuClick(item.href)}
-                          className="w-full text-left px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-gray-800 flex items-center gap-2"
+                          className={`w-full text-left px-4 py-2 text-sm ${item.underConstruction ? 'text-gray-500 cursor-not-allowed' : 'text-gray-300 hover:text-white hover:bg-gray-800'} flex items-center justify-between`}
+                          disabled={item.underConstruction}
                         >
-                          {item.label}
-                          {item.icon && item.icon}
+                          <span>{item.label}</span>
+                          {item.underConstruction && <Lock className="w-4 h-4" />}
                         </button>
                       ))}
                     </div>
@@ -502,15 +498,16 @@ export function Navigation({ keşifSkoru, onPageChange, onProjectClick }: Naviga
                 ))}
 
                 {/* Mobil Dropdown Items */}
-                <div className="border-t border-gray-700 mt-2 pt-2">
+                <div className="border-t border-[#4efaa7]/10 mt-2 pt-2">
                   {DROPDOWN_ITEMS.map((item) => (
                     <button
                       key={item.href}
                       onClick={() => handleMenuClick(item.href)}
-                      className="text-gray-300 hover:text-white block w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center gap-2"
+                      className={`text-gray-300 block w-full text-left px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 flex items-center justify-between ${item.underConstruction ? 'text-gray-500 cursor-not-allowed' : 'hover:text-white'}`}
+                      disabled={item.underConstruction}
                     >
-                      {item.label}
-                      {item.icon && item.icon}
+                      <span>{item.label}</span>
+                      {item.underConstruction && <Lock className="w-4 h-4" />}
                     </button>
                   ))}
                 </div>
@@ -583,10 +580,11 @@ export function Navigation({ keşifSkoru, onPageChange, onProjectClick }: Naviga
                     <button
                       key={item.href}
                       onClick={() => handleMenuClick(item.href)}
-                      className="text-gray-300 hover:text-white block w-full text-left px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 flex items-center gap-2"
+                      className={`text-gray-300 block w-full text-left px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 flex items-center justify-between ${item.underConstruction ? 'text-gray-500 cursor-not-allowed' : 'hover:text-white'}`}
+                      disabled={item.underConstruction}
                     >
-                      {item.label}
-                      {item.icon && item.icon}
+                      <span>{item.label}</span>
+                      {item.underConstruction && <Lock className="w-4 h-4" />}
                     </button>
                   ))}
                 </div>
