@@ -525,14 +525,25 @@ export function Navigation({ keşifSkoru, onPageChange, onProjectClick }: Naviga
           <div className="flex items-center">
             <button
               onClick={() => setIsChatOpen(!isChatOpen)}
-              className="relative overflow-hidden bg-black/90 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-black/70 transition-all duration-300 group border border-white/20 hover:border-white/30"
+              className="relative overflow-hidden bg-black/90 text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-black/70 transition-all duration-300 group border border-white/20 hover:border-white/30"
             >
-              <MessageCircle className="w-4 h-4 text-white transition-all duration-300 group-hover:scale-110" />
+              <MessageCircle className="w-5 h-5 text-white transition-all duration-300 group-hover:scale-110" />
             </button>
           </div>
 
-          {/* Center - Keşif Skoru */}
-          <div className="flex items-center">
+          {/* Center - Brand & Score */}
+          <div className="flex items-center relative">
+            <AnimatePresence>
+              {!hasShownScore && (
+                <motion.div
+                  initial={{ opacity: 1 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  className="absolute left-1/2 -translate-x-1/2 text-white font-medium"
+                >
+                  emnc
+                </motion.div>
+              )}
+            </AnimatePresence>
             <div className={`keşif-skoru-button bg-black/90 text-white px-3 py-1.5 rounded-full flex items-center gap-1.5 text-xs border border-[#4efaa7]/20 hover:border-[#4efaa7]/30 ${!hasShownScore ? 'opacity-0' : 'animate-score-reveal'}`}>
               <Medal 
                 className={`w-3.5 h-3.5 text-[#4efaa7] transition-all duration-300 ${isFlameAnimating ? 'animate-coin-pulse scale-125' : ''}`} 
@@ -545,7 +556,7 @@ export function Navigation({ keşifSkoru, onPageChange, onProjectClick }: Naviga
           <div className="flex items-center">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-white p-2 rounded-lg transition-colors duration-200 border border-white/20 hover:border-white/30"
+              className="text-white w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-200 border border-white/20 hover:border-white/30"
               aria-label="Toggle menu"
             >
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -590,6 +601,21 @@ export function Navigation({ keşifSkoru, onPageChange, onProjectClick }: Naviga
                   ))}
                 </div>
               </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Mobile Chat Panel */}
+        <AnimatePresence>
+          {isChatOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="fixed top-16 left-0 w-full bg-black border-b border-[#4efaa7]/10 p-4"
+              style={{ zIndex: Z_INDEX.NAVBAR_DROPDOWN }}
+            >
+              {/* ... existing chat panel code ... */}
             </motion.div>
           )}
         </AnimatePresence>
